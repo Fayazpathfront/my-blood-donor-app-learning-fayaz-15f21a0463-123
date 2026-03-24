@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blood Donor App</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <!-- NAVBAR — appears on every page -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="drop">🩸</span> BloodConnect
+    </div>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="{{ url_for('register') }}">Register as Donor</a></li>
+      <li><a href="{{ url_for('request_blood') }}">Request Blood</a></li>
+      <li><a href="{{ url_for('nearby_donors') }}">Find Donors</a></li>
+    </ul>
+  </nav>
+
+  <!-- Flash messages (success / error alerts) -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <!-- Each page's content goes here -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <p>BloodConnect — Saving lives, one donor at a time.</p>
+  </footer>
+
+</body>
+</html>

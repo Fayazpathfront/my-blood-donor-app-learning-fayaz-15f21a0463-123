@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="hero">
+  <h1>Every Drop Counts</h1>
+  <p>Connect doctors with nearby blood donors instantly.</p>
+  <div class="hero-buttons">
+    <a href="{{ url_for('register') }}" class="btn btn-primary">Become a Donor</a>
+    <a href="{{ url_for('request_blood') }}" class="btn btn-outline">Request Blood</a>
+  </div>
+</section>
+
+<!-- Stats bar -->
+<section class="stats">
+  <div class="stat-card">
+    <h2>{{ total_donors }}</h2>
+    <p>Registered Donors</p>
+  </div>
+  <div class="stat-card">
+    <h2>{{ total_requests }}</h2>
+    <p>Blood Requests</p>
+  </div>
+  <div class="stat-card">
+    <h2>8</h2>
+    <p>Blood Groups Covered</p>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="how-it-works">
+  <h2>How It Works</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Doctor creates request</h3>
+      <p>Doctor enters patient details, blood group and hospital location.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>App finds nearby donors</h3>
+      <p>System searches for compatible donors in the city.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Donor is notified</h3>
+      <p>Nearby donors receive an alert and can respond immediately.</p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

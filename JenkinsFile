@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+
+    environment {
+        APP_DIR = 'C:\\Users\\ruhir\\my_blood_donor_app'
+    }
+
+    stages {
+
+        stage('Verify Files') {
+            steps {
+                echo 'Checking project files...'
+                bat 'dir %APP_DIR%'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing Python dependencies...'
+                bat 'pip install -r %APP_DIR%\\requirements.txt'
+                bat 'pip install pytest'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                echo 'Running pytest...'
+                bat 'cd %APP_DIR% && pytest tests/ -v'
+            }
+        }
+
+        // Will enable when Docker BIOS is fixed
+        // stage('Build Docker Image') { ... }
+        // stage('Deploy') { ... }
+
+    }
+
+    post {
+        success {
+            echo '✅ All stages passed! App is tested and ready.'
+        }
+        failure {
+            echo '❌ Pipeline failed! Check console output.'
+        }
+    }
+}

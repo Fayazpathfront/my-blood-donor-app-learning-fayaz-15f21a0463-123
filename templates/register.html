@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="form-container">
+  <h2>Register as a Blood Donor</h2>
+  <p class="form-subtitle">Your details help us match you with patients in need.</p>
+
+  <form method="POST" action="{{ url_for('register') }}">
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" name="name" placeholder="e.g. Ravi Kumar" required>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" name="phone" placeholder="+91 9876543210" required>
+      </div>
+      <div class="form-group">
+        <label>Email (optional)</label>
+        <input type="email" name="email" placeholder="ravi@email.com">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Blood Group</label>
+        <select name="blood_group" required>
+          <option value="">-- Select --</option>
+          <option>A+</option><option>A-</option>
+          <option>B+</option><option>B-</option>
+          <option>O+</option><option>O-</option>
+          <option>AB+</option><option>AB-</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>City</label>
+        <input type="text" name="city" placeholder="e.g. Anantapur" required>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-full">Register Now</button>
+  </form>
+</div>
+
+{% endblock %}

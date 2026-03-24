@@ -1,0 +1,42 @@
+services:
+
+  # ── Service 1: PostgreSQL database ──────────────
+  db:
+    image: postgres:15                  # use official PostgreSQL image
+    container_name: blooddonor_db
+    environment:
+      POSTGRES_DB: blooddonor           # auto-creates this database
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 59F21a0463@123AP40BX3122
+    ports:
+      - "5432:5432"                     # your machine:container
+    volumes:
+      - postgres_data:/var/lib/postgresql/data   # data survives restarts
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ── Service 2: Flask app ─────────────────────────
+  web:
+    build: .                            # build from our Dockerfile
+    container_name: blooddonor_web
+    ports:
+      - "5000:5000"                     # your machine:container
+    environment:
+      DB_HOST: db                       # "db" = name of the postgres service above
+      DB_PORT: 5432
+      DB_NAME: blooddonor
+      DB_USER: postgres
+      DB_PASSWORD: 59F21a0463@123AP40BX3122
+      SECRET_KEY: blooddonor2024
+    depends_on:
+      db:
+        condition: service_healthy      # wait for postgres to be ready first
+    volumes:
+      - .:/app                          # live reload — code changes reflect instantly
+
+# ── Volume: stores postgres data permanently ──────
+volumes:
+  postgres_data:

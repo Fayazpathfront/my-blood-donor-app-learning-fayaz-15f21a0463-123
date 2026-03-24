@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="donors-page">
+  <h2>Available Donors</h2>
+
+  <!-- Filter bar -->
+  <form method="GET" action="{{ url_for('nearby_donors') }}" class="filter-bar">
+    <select name="blood_group">
+      <option value="">All Blood Groups</option>
+      <option {% if blood_filter=='A+' %}selected{% endif %}>A+</option>
+      <option {% if blood_filter=='A-' %}selected{% endif %}>A-</option>
+      <option {% if blood_filter=='B+' %}selected{% endif %}>B+</option>
+      <option {% if blood_filter=='B-' %}selected{% endif %}>B-</option>
+      <option {% if blood_filter=='O+' %}selected{% endif %}>O+</option>
+      <option {% if blood_filter=='O-' %}selected{% endif %}>O-</option>
+      <option {% if blood_filter=='AB+' %}selected{% endif %}>AB+</option>
+      <option {% if blood_filter=='AB-' %}selected{% endif %}>AB-</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Filter</button>
+  </form>
+
+  <!-- Donor cards -->
+  {% if donors %}
+    <div class="donor-grid">
+      {% for donor in donors %}
+      <div class="donor-card">
+        <div class="blood-badge">{{ donor.blood_group }}</div>
+        <h3>{{ donor.name }}</h3>
+        <p>📍 {{ donor.city }}</p>
+        <p>📞 {{ donor.phone }}</p>
+        <span class="status available">Available</span>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>No donors found. <a href="{{ url_for('register') }}">Be the first to register!</a></p>
+    </div>
+  {% endif %}
+
+  <!-- Active blood requests -->
+  {% if requests %}
+  <h2 style="margin-top:40px">Active Blood Requests</h2>
+  <div class="requests-list">
+    {% for req in requests %}
+    <div class="request-card {% if req.urgency == 'critical' %}urgent{% endif %}">
+      <div class="blood-badge">{{ req.blood_group }}</div>
+      <div class="request-info">
+        <h3>{{ req.patient_name }}</h3>
+        <p>🏥 {{ req.hospital }} — {{ req.city }}</p>
+        <p>📞 {{ req.contact }} &nbsp;|&nbsp; {{ req.units }} unit(s) needed</p>
+      </div>
+      {% if req.urgency == 'critical' %}
+        <span class="urgency-tag">CRITICAL</span>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
