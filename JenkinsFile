@@ -2,45 +2,44 @@ pipeline {
     agent any
 
     environment {
-        APP_DIR = 'C:\\Users\\ruhir\\my_blood_donor_app'
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
+        IMAGE_NAME = 'Fayazpathfront/blood-donor-app'
     }
 
     stages {
-
-        stage('Verify Files') {
+        stage('Checkout') {
             steps {
-                echo 'Checking project files...'
-                bat 'dir %APP_DIR%'
+                checkout scm
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Install & Test') {
             steps {
-                echo 'Installing Python dependencies...'
-                bat 'pip install -r %APP_DIR%\\requirements.txt'
-                bat 'pip install pytest'
+                bat 'pip install -r requirements.txt'
+                bat 'pytest tests/'
             }
         }
 
-        stage('Run Tests') {
+        stage('Build Docker Image') {
             steps {
-                echo 'Running pytest...'
-                bat 'cd %APP_DIR% && pytest tests/ -v'
+                bat 'docker build -t %IMAGE_NAME%:latest .'
             }
         }
 
-        // Will enable when Docker BIOS is fixed
-        // stage('Build Docker Image') { ... }
-        // stage('Deploy') { ... }
-
+        stage('Push to DockerHub') {
+            steps {
+                bat 'echo %DOCKERHUB_CREDENTIALS_PSW% | docker login -u %DOCKERHUB_CREDENTIALS_USR% --password-stdin'
+                bat 'docker push %IMAGE_NAME%:latest'
+            }
+        }
     }
 
     post {
         success {
-            echo '✅ All stages passed! App is tested and ready.'
+            echo '✅ CI/CD Pipeline Passed - Image pushed to DockerHub!'
         }
         failure {
-            echo '❌ Pipeline failed! Check console output.'
+            echo '❌ Pipeline Failed - Check logs!'
         }
     }
 }
