@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
-        IMAGE_NAME = 'Fayazpathfront/blood-donor-app'
+        IMAGE_NAME = 'fayazshaik15f21a0463/blood-donor-app'
     }
 
     stages {
