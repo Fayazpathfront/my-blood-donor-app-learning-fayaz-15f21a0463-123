@@ -15,8 +15,8 @@ pipeline {
 
         stage('Install & Test') {
             steps {
-                bat 'C:\\Users\\ruhir\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe -m pip install -r requirements.txt'
-                bat 'C:\\Users\\ruhir\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe -m pytest tests/'
+                bat 'C:\Users\ruhir\AppData\Local\Python\pythoncore-3.14-64\python.exe -m pip install -r requirements.txt'
+                bat 'C:\Users\ruhir\AppData\Local\Python\pythoncore-3.14-64\python.exe -m pytest tests/'
             }
         }
 
