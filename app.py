@@ -63,6 +63,7 @@ with app.app_context():
 # ──────────────────────────────────────────────
 @app.route("/")
 def home():
+    print("its Fayaz app") 
     conn = get_db()
     cur = conn.cursor()
     cur.execute("SELECT COUNT(*) FROM donors")
