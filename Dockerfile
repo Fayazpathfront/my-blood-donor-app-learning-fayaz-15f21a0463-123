@@ -20,5 +20,5 @@ COPY . .
 # Step 6 — Tell Docker this container uses port 5000
 EXPOSE 5000
 
-# Step 7 — Command to run when container starts
-CMD ["python", "app.py"]
+# Step 7 — Use Gunicorn to run app (production-grade) ← CHANGED
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "app:app"]
