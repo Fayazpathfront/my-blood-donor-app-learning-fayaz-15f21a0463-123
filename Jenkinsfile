@@ -46,9 +46,47 @@ pipeline {
     post {
         success {
             echo '✅ CI/CD Pipeline Passed - Blood Donor App is LIVE!'
+            mail to: 'fayazshaik15f21a0463@gmail.com',
+                 subject: "✅ Build #${BUILD_NUMBER} Passed - Blood Donor App is LIVE!",
+                 body: """
+                 Hello Fayaz! 🩸
+
+                 Your Blood Donor App pipeline has PASSED successfully!
+
+                 Build Number : ${BUILD_NUMBER}
+                 App URL      : http://localhost
+                 Health Check : http://localhost/health
+                 DockerHub    : fayazshaik15f21a0463/blood-donor-app:${BUILD_NUMBER}
+
+                 All stages passed:
+                 ✅ Checkout
+                 ✅ Install & Test
+                 ✅ Build Docker Image
+                 ✅ Push to DockerHub
+                 ✅ Deploy
+                 ✅ Health Check
+
+                 Regards,
+                 Jenkins CI/CD 🚀
+                 """
         }
         failure {
             echo '❌ Pipeline Failed - Check logs!'
+            mail to: 'fayazshaik15f21a0463@gmail.com',
+                 subject: "❌ Build #${BUILD_NUMBER} Failed - Blood Donor App!",
+                 body: """
+                 Hello Fayaz! 🩸
+
+                 Your Blood Donor App pipeline has FAILED!
+
+                 Build Number : ${BUILD_NUMBER}
+                 Jenkins URL  : http://localhost:8080
+
+                 Please check Jenkins logs immediately!
+
+                 Regards,
+                 Jenkins CI/CD 🚀
+                 """
         }
     }
 }
