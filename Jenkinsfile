@@ -18,29 +18,30 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t %IMAGE_NAME%:latest .'
+                bat 'docker build -t %IMAGE_NAME%:latest -t %IMAGE_NAME%:%BUILD_NUMBER% .'
             }
         }
         stage('Push to DockerHub') {
             steps {
                 bat 'docker login -u %DOCKERHUB_CREDENTIALS_USR% -p %DOCKERHUB_CREDENTIALS_PSW%'
                 bat 'docker push %IMAGE_NAME%:latest'
+                bat 'docker push %IMAGE_NAME%:%BUILD_NUMBER%'
             }
         }
-     stage('Deploy') {
-    steps {
-        bat 'docker rm -f blooddonor_web || true'
-        bat 'docker rm -f blooddonor_nginx || true'
-        bat 'docker-compose pull'
-        bat 'docker-compose up -d'
-    }
-}
-       stage('Health Check') {
-    steps {
-        bat 'ping -n 6 127.0.0.1 > nul'
-        bat 'curl -f http://localhost:80/health'   // ← change 5000 to 80
-    }
-}
+        stage('Deploy') {
+            steps {
+                bat 'docker rm -f blooddonor_web || true'
+                bat 'docker rm -f blooddonor_nginx || true'
+                bat 'docker-compose pull'
+                bat 'docker-compose up -d'
+            }
+        }
+        stage('Health Check') {
+            steps {
+                bat 'ping -n 6 127.0.0.1 > nul'
+                bat 'curl -f http://localhost:80/health'
+            }
+        }
     }
     post {
         success {
