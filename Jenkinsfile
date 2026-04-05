@@ -46,7 +46,7 @@ pipeline {
     post {
         success {
             echo '✅ CI/CD Pipeline Passed - Blood Donor App is LIVE!'
-            mail to: 'fayazshaik15f21a0463@gmail.com',
+            mail to: 'smdfayaz687@gmail.com',
                  subject: "✅ Build #${BUILD_NUMBER} Passed - Blood Donor App is LIVE!",
                  body: """
                  Hello Fayaz! 🩸
@@ -72,7 +72,7 @@ pipeline {
         }
         failure {
             echo '❌ Pipeline Failed - Check logs!'
-            mail to: 'fayazshaik15f21a0463@gmail.com',
+            mail to: 'smdfayaz687@gmail.com',
                  subject: "❌ Build #${BUILD_NUMBER} Failed - Blood Donor App!",
                  body: """
                  Hello Fayaz! 🩸
