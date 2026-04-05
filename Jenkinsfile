@@ -28,12 +28,13 @@ pipeline {
             }
         }
         stage('Deploy') {
-            steps {
-                bat 'docker-compose down'
-                bat 'docker-compose pull'
-                bat 'docker-compose up -d'
-            }
-        }
+    steps {
+        bat 'docker rm -f blooddonor_web || true'
+        bat 'docker rm -f blooddonor_db || true'
+        bat 'docker-compose pull'
+        bat 'docker-compose up -d'
+    }
+}
         stage('Health Check') {
             steps {
                 bat 'ping -n 6 127.0.0.1 > nul'
