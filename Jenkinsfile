@@ -29,7 +29,6 @@ pipeline {
         }
         stage('Deploy') {
     steps {
-        bat 'docker rm -f blooddonor_web || true'
         bat 'docker rm -f blooddonor_db || true'
         bat 'docker-compose pull'
         bat 'docker-compose up -d'
