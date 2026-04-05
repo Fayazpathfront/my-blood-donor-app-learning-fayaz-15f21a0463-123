@@ -34,12 +34,12 @@ pipeline {
         bat 'docker-compose up -d'
     }
 }
-        stage('Health Check') {
-            steps {
-                bat 'ping -n 6 127.0.0.1 > nul'
-                bat 'curl -f http://localhost:5000/health'
-            }
-        }
+       stage('Health Check') {
+    steps {
+        bat 'ping -n 6 127.0.0.1 > nul'
+        bat 'curl -f http://localhost:80/health'   // ← change 5000 to 80
+    }
+}
     }
     post {
         success {
